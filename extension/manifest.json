@@ -1,0 +1,41 @@
+{
+  "manifest_version": 2,
+  "name": "Myna browser extension",
+  "version": "0.1",
+  "description": "Japan Individual Number Card (aka My Number Card) browser extension",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://mposs.force.com/*",
+        "https://portal.post.japanpost.jp/*",
+        "https://login.post.japanpost.jp/*",
+        "https://*.go.jp/*",
+        "https://*.e-shishobako.ne.jp/*",
+        "https://*.lg.jp/*",
+        "https://*.e-taxrenkei.jp/*"
+      ],
+      "js": [
+        "src/common/card.js",
+        "src/common/pin_reader.js",
+        "src/common/utils.js",
+        "src/mynaportal/utils.js",
+        "src/mynaportal/main.js"
+      ]
+    }
+  ],
+  "web_accessible_resources": ["src/common/useragent.js"],
+  "background": {
+    "scripts": [
+      "src/common/msg.js"
+    ],
+    "persistent": false
+  },
+  "permissions": [
+    "nativeMessaging"
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{4196ed66-3021-4ca5-8347-eb7ef2020188}"
+    }
+  }
+}
