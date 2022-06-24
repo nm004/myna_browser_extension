@@ -25,6 +25,5 @@ configure_file(
 
 install_data([
   'internal' / 'card.py',
-  'internal' / 'msg.py',
   'internal' / '__init__.py'],
   install_dir: appdir / 'internal',)

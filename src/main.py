@@ -20,12 +20,28 @@
 
 import sys
 import base64
-from internal import Card, recv_msg, send_msg
+import json
+import struct
+from internal import Card
 
 def main(argv):
     while m := recv_msg(sys.stdin.buffer):
         r = handle_msg(m)
         send_msg(sys.stdout.buffer, r)
+
+def recv_msg(rbuf):
+    b = rbuf.read(4)
+    if len(b) == 0:
+        return None
+    n = struct.unpack('=I', b)[0]
+    return json.loads(rbuf.read(n))
+
+def send_msg(wbuf, msg):
+    msg = json.dumps(msg)
+    msg = bytes(msg, encoding='utf-8')
+    msg = struct.pack('=I', len(msg)) + msg
+    wbuf.write(msg)
+    wbuf.flush()
 
 def handle_msg(msg):
     try:
