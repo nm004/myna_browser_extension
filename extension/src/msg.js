@@ -1,7 +1,7 @@
 /*
  * myna-browser-extension
  *
- * common/pin_reader.js
+ * msg.js
  *
  * Copyright 2022 Nozomi Miyamori
  *
@@ -19,26 +19,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class PinReader {
-  static read_user_auth_pin() {
-    return this._read_pin('Please type user authentication pin (4 digits pin)', this._check_4pin) 
-  }
-
-  static read_kenmen_pin() {
-    return this._read_pin('Please type kenmen pin (4 digits pin)', this._check_4pin) 
-  }
-
-  static _check_4pin(pin) {
-    return isFinite(Number(pin)) && pin.length === 4
-  }
-
-  static _read_pin(prompt_text, pin_check) {
-    while (true) {
-      let pin = prompt(prompt_text)
-      if (pin === null)
-        return pin
-      else if (pin_check(pin))
-        return pin
-    }
-  }
+function on_message(msg) {
+  return browser.runtime.sendNativeMessage('myna_browser_extension', msg)
 }
+
+chrome.runtime.onMessage.addListener(on_message)

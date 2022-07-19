@@ -1,7 +1,7 @@
 /*
  * myna-browser-extension
  *
- * common/useragent.js
+ * useragent.js
  *
  * Copyright 2022 Nozomi Miyamori
  *
@@ -18,7 +18,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-Object.defineProperty(navigator, 'userAgent', {
-  get: ()=>"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.0.0 Safari/537.36",
-  configurable: true
-})
+
+var browser;
+if (browser === undefined) {
+  Object.defineProperty(navigator, 'userAgent', {
+    get: ()=>"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.0.0 Safari/537.36",
+    configurable: true
+  })
+} else {
+  const s = document.createElement('script')
+  s.src = browser.runtime.getURL('src/useragent.js')
+  s.onload = () => s.remove();
+  (document.head || document.documentElement).appendChild(s)
+}

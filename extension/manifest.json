@@ -15,18 +15,16 @@
         "https://*.e-taxrenkei.jp/*"
       ],
       "js": [
-        "src/common/card.js",
-        "src/common/pin_reader.js",
-        "src/common/utils.js",
-        "src/mynaportal/utils.js",
-        "src/mynaportal/main.js"
+      	"src/useragent.js",
+        "src/utils.js",
+        "src/main.js"
       ]
     }
   ],
   "web_accessible_resources": ["src/common/useragent.js"],
   "background": {
     "scripts": [
-      "src/common/msg.js"
+      "src/msg.js"
     ],
     "persistent": false
   },

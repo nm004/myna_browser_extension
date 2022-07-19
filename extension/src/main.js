@@ -1,7 +1,7 @@
 /*
  * myna-browser-extension
  *
- * mynaportal/utils.js
+ * main.js
  *
  * Copyright 2022 Nozomi Miyamori
  *
@@ -18,11 +18,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-function on_launchApp(e) {
-  const msg = JSON.parse(e.detail)
-  handle_msg(msg).then(send_response)
-}
 
 function handle_msg(msg) {
   switch (msg.mode) {
@@ -84,3 +79,24 @@ function send_response(msg) {
   const e = new CustomEvent('recvMsg', { detail })
   document.dispatchEvent(e)
 }
+
+function on_launchApp(e) {
+  const msg = JSON.parse(e.detail)
+  handle_msg(msg).then(send_response)
+}
+
+document.addEventListener('launchApp', on_launchApp)
+
+/* They check if the extension and the native messaging client are installed or not
+ * by finding these element. */
+const e1 = document.createElement('input')
+e1.id = 'extension-is-installed'
+e1.type = 'hidden'
+e1.value = true
+document.body.appendChild(e1)
+
+const e2 = document.createElement('input')
+e2.id = 'app-is-installed'
+e2.type = 'hidden'
+e2.value = true
+document.body.appendChild(e2)

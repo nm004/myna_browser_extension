@@ -1,7 +1,7 @@
 /*
  * myna-browser-extension
  *
- * common/card.js
+ * utils.js
  *
  * Copyright 2022 Nozomi Miyamori
  *
@@ -20,7 +20,6 @@
  */
 
 class Card {
-
   static sign_with_user_auth(pin, message) {
     const method = this.sign_with_user_auth.name
     const params = { pin, message }
@@ -50,10 +49,34 @@ class Card {
   }
 
   static _parse_response(r) {
-    if (r.result !== undefined) {
-      return Promise.resolve(r.result)
-    } else {
+    if (r.result === undefined) {
       return Promise.resolve(r.error)
+    } else {
+      return Promise.resolve(r.result)
+    }
+  }
+}
+
+class PinReader {
+  static read_user_auth_pin() {
+    return this._read_pin('Please type user authentication pin (4 digits pin)', this._check_4pin)
+  }
+
+  static read_kenmen_pin() {
+    return this._read_pin('Please type kenmen pin (4 digits pin)', this._check_4pin)
+  }
+
+  static _check_4pin(pin) {
+    return isFinite(Number(pin)) && pin.length === 4
+  }
+
+  static _read_pin(prompt_text, pin_check) {
+    while (true) {
+      let pin = prompt(prompt_text)
+      if (pin === null)
+        return pin
+      else if (pin_check(pin))
+        return pin
     }
   }
 }
