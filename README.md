@@ -48,6 +48,7 @@ rm -rf $HOME/.mozilla/native-messaging-hosts/myna-browser-extension{,.json}
  * マイナポータルへのログイン
  * 公金受け取り講座の登録、確認
  * 健康保険証の利用申し込み、確認 (手動によるユーザエージェントの変更が必要)
+   * `about:config` で `general.useragent.override` の値 (文字列) を `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36` にする
  * 外部サイトとの連携 (もっとつながる)
 
 できないこと、未実装の機能
