@@ -19,46 +19,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-function handle_msg(msg) {
-  switch (msg.mode) {
-  case '01':
-    return on_mode01(msg)
-  case '03':
-  case '04':
-    return on_mode0304(msg)
-  }
-}
-
-async function on_mode01(msg) {
-  const mode = msg.mode
+async function on_mode01(digest) {
   const pin = PinReader.read_kenmen_pin()
   if (!pin) {
-    return { mode, result: '9' }
+    return { result: '9' }
   }
 
-  //TODO: write error handling
   return {
-    mode,
     result: '0',
-    signature: await Card.sign_with_user_auth(pin, msg.digest),
+    signature: await Card.sign_with_user_auth(pin, digest),
     certificate: await Card.fetch_user_auth_cert(),
-    combination_code: await Card.fetch_individual_number(pin),
+    combination_code: await Card.fetch_individual_number(pin)
   }
 }
 
-async function on_mode0304(msg) {
-  const mode = msg.mode
+async function on_mode0304() {
   const pin = PinReader.read_kenmen_pin()
   if (!pin) {
-    return { mode, result: '9' }
+    return { result: '9' }
   }
 
-  //TODO write error handling
   const [name,address,birthday,sex] = (await Card.fetch_personal_info(pin)).map( x => toHexString(x) )
   const combination_code = await Card.fetch_individual_number(pin)
 
   return {
-    mode,
     result: '0',
     mynumber: toHexString(combination_code),
     name,
@@ -80,9 +64,25 @@ function send_response(msg) {
   document.dispatchEvent(e)
 }
 
-function on_launchApp(e) {
+//TODO: write error handling
+async function on_launchApp(e) {
   const msg = JSON.parse(e.detail)
-  handle_msg(msg).then(send_response)
+
+  let r = undefined
+  switch (msg.mode) {
+  case '01':
+    r = on_mode01(msg.digest)
+    break;
+  case '03':
+  case '04':
+    r = on_mode0304()
+    break;
+  }
+
+  send_response({
+    mode: msg.mode,
+    ...(await r)
+  })
 }
 
 document.addEventListener('launchApp', on_launchApp)
