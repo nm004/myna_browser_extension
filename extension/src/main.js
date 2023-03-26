@@ -85,18 +85,36 @@ async function on_launchApp(e) {
   })
 }
 
-document.addEventListener('launchApp', on_launchApp)
-
 /* They check if the extension and the native messaging client are installed or not
  * by finding these element. */
-const e1 = document.createElement('input')
-e1.id = 'extension-is-installed'
-e1.type = 'hidden'
-e1.value = true
-document.body.appendChild(e1)
+function inject_extension_installation_check_code() {
+  const e1 = document.createElement('input')
+  e1.id = 'extension-is-installed'
+  e1.type = 'hidden'
+  e1.value = true
+  document.body.appendChild(e1)
 
-const e2 = document.createElement('input')
-e2.id = 'app-is-installed'
-e2.type = 'hidden'
-e2.value = true
-document.body.appendChild(e2)
+  const e2 = document.createElement('input')
+  e2.id = 'app-is-installed'
+  e2.type = 'hidden'
+  e2.value = true
+  document.body.appendChild(e2)
+}
+
+function inject_ua_override_code() {
+  const s = document.createElement('script')
+  s.textContent = `
+    Object.defineProperty(navigator, 'userAgent', {
+      get: ()=>"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/111.0",
+      configurable: true
+    })
+  `
+  s.onload = () => s.remove()
+
+  const head_or_doc = document.head || document.documentElement
+  head_or_doc.appendChild(s)
+}
+
+document.addEventListener('launchApp', on_launchApp)
+inject_extension_installation_check_code()
+inject_ua_override_code()

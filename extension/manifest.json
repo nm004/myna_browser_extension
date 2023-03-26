@@ -15,13 +15,11 @@
         "https://*.e-taxrenkei.jp/*"
       ],
       "js": [
-      	"src/useragent.js",
         "src/utils.js",
         "src/main.js"
       ]
     }
   ],
-  "web_accessible_resources": ["src/common/useragent.js"],
   "background": {
     "scripts": [
       "src/msg.js"
