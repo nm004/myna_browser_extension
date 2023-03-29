@@ -1,7 +1,7 @@
 Myna browser extension
 =========================
 
-[マイナンバーカードポータルサイト](https://myna.go.jp])用のFirefox拡張機能。
+[マイナンバーカードポータルサイト](https://myna.go.jp)用のFirefox拡張機能。
 
 必要なもの
 -------------------------
@@ -31,7 +31,7 @@ Windows, macOS でも動くと思うけどどうなるかは知らん。
 
 ### ホスト側のプログラム
 ```
-meson setup -Dmozdir=$HOME/.mozilla build 
+meson setup -Dmozdir=$HOME/.mozilla -Dpython.install_env=auto build
 meson install -C build
 ```
 
@@ -39,7 +39,8 @@ meson install -C build
 -------------------------
 
 ```
-rm -rf $HOME/.mozilla/native-messaging-hosts/myna-browser-extension{,.json}
+rm -rf $HOME/.mozilla/native-messaging-hosts/MPA
+rm -rf $HOME/.mozilla/native-messaging-hosts/myna_browser_extension.json
 ```
 
 動作確認済みの内容
