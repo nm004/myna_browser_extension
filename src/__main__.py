@@ -22,12 +22,13 @@ import sys
 import base64
 import json
 import struct
-from internal import Card
+from _internal import Card
 
 def main(argv):
     while m := recv_msg(sys.stdin.buffer):
         r = handle_msg(m)
         send_msg(sys.stdout.buffer, r)
+    return 0
 
 def recv_msg(rbuf):
     b = rbuf.read(4)
