@@ -1,0 +1,1 @@
+powershell -executionpolicy remotesigned -File Install.ps1

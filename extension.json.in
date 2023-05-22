@@ -1,5 +1,5 @@
 {
-  "name": "@name@",
+  "name": "myna_browser_extension",
   "description": "Native messaging client for Japan Individual Number Card (aka My Number Card) browser extension",
   "path": "@path@",
   "type": "stdio",
