@@ -12,9 +12,8 @@ Myna browser extension
 動作を確認しているプラットフォーム
 -------------------------
 
- * Firefox (Linux)
-
-Windows, macOS でも動くと思うけどどうなるかは知らん。
+ * Linux
+ * Windows
 
 内容物
 -------------------------
@@ -30,18 +29,31 @@ Windows, macOS でも動くと思うけどどうなるかは知らん。
 `about:debugging#/runtime/this-firefox` から一時的なアドオンとして`extension/manifest.json`を読み込む。
 
 ### ホスト側のプログラム
+
+### Linux
+
 ```
 meson setup -Dmozdir=$HOME/.mozilla -Dpython.install_env=auto build
 meson install -C build
 ```
 
+### Windows
+
+install.batを実行する
+
 アンインストール
 -------------------------
+
+### Linux
 
 ```
 rm -rf $HOME/.mozilla/native-messaging-hosts/MPA
 rm -rf $HOME/.mozilla/native-messaging-hosts/myna_browser_extension.json
 ```
+
+### Windows
+
+uninstall.batを実行する
 
 動作確認済みの内容
 -------------------------
@@ -52,7 +64,7 @@ rm -rf $HOME/.mozilla/native-messaging-hosts/myna_browser_extension.json
    * `about:config` で `general.useragent.override` の値 (文字列) を `Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36` にする
  * 外部サイトとの連携 (もっとつながる)
 
-できないこと、未実装の機能
+未実装の機能
 -------------------------
 
  * パスワード変更
