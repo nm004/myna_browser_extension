@@ -22,9 +22,9 @@ import sys
 import base64
 import json
 import struct
-from _internal import Card
+from ._internal import Card
 
-def main(argv):
+def main():
     while m := recv_msg(sys.stdin.buffer):
         r = handle_msg(m)
         send_msg(sys.stdout.buffer, r)
@@ -104,4 +104,4 @@ def fetch_personal_info(pin):
     return tuple( str(bytes(i), 'utf-8') for i in r )
 
 if __name__ == '__main__':
-    sys.exit(main(sys.argv))
+    sys.exit(main())
