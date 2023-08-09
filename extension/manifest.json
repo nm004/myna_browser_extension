@@ -1,37 +1,36 @@
 {
-  "manifest_version": 2,
-  "name": "Myna browser extension",
-  "version": "0.1",
-  "description": "Japan Individual Number Card (aka My Number Card) browser extension",
-  "content_scripts": [
-    {
-      "matches": [
-        "https://mposs.force.com/*",
-        "https://portal.post.japanpost.jp/*",
-        "https://login.post.japanpost.jp/*",
-        "https://*.go.jp/*",
-        "https://*.e-shishobako.ne.jp/*",
-        "https://*.lg.jp/*",
-        "https://*.e-taxrenkei.jp/*"
-      ],
-      "js": [
-        "src/utils.js",
-        "src/main.js"
-      ]
-    }
-  ],
-  "background": {
-    "scripts": [
-      "src/msg.js"
-    ],
-    "persistent": false
-  },
-  "permissions": [
-    "nativeMessaging"
-  ],
-  "browser_specific_settings": {
-    "gecko": {
-      "id": "{4196ed66-3021-4ca5-8347-eb7ef2020188}"
-    }
-  }
+	"manifest_version": 3,
+	"name": "Myna browser extension",
+	"version": "0.1",
+	"description": "Japan Individual Card (aka My Number Card) browser extension",
+	"content_scripts": [
+		{
+			"matches": [
+				"https://mposs.force.com/*",
+				"https://portal.post.japanpost.jp/*",
+				"https://login.post.japanpost.jp/*",
+				"https://*.go.jp/*",
+				"https://*.e-shishobako.ne.jp/*",
+				"https://*.lg.jp/*",
+				"https://*.e-taxrenkei.jp/*"
+			],
+			"js": [
+				"src/main.js",
+				"src/utils.js"
+			]
+		}
+	],
+	"background": {
+		"scripts": [
+			"src/msg.js"
+		]
+	},
+	"permissions": [
+		"nativeMessaging"
+	],
+	"browser_specific_settings": {
+		"gecko": {
+			"id": "{4196ed66-3021-4ca5-8347-eb7ef2020188}"
+		}
+	}
 }
