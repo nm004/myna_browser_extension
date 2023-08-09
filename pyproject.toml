@@ -3,9 +3,9 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "myna_browser_extension_nmh"
+name = "myna_browser_extension"
 version = "0.1.0"
-description = "Native messaging client for Japan Individual Number Card (aka My Number Card) browser extension"
+description = "Native messaging client for Japan Individual Card (aka My Number Card) browser extension"
 readme = "README.md"
 requires-python = ">=3.10"
 license = {file = "COPYING"}
