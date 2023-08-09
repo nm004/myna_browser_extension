@@ -19,103 +19,105 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-async function on_mode01(digest) {
-  const pin = PinReader.read_kenmen_pin()
-  if (!pin) {
-    return { result: '9' }
-  }
+const on_mode01 = async (digest) => {
+	const pin = PinReader.read_kenmen_pin();
+	if (!pin) {
+		return { result: "9" };
+	}
 
-  return {
-    result: '0',
-    signature: await Card.sign_with_user_auth(pin, digest),
-    certificate: await Card.fetch_user_auth_cert(),
-    combination_code: await Card.fetch_individual_number(pin)
-  }
+	return {
+		result: "0",
+		signature: await Card.sign_with_user_auth(pin, digest),
+		certificate: await Card.fetch_user_auth_cert(),
+		combination_code: await Card.fetch_individual_number(pin),
+	};
 }
 
-async function on_mode0304() {
-  const pin = PinReader.read_kenmen_pin()
-  if (!pin) {
-    return { result: '9' }
-  }
+const on_mode0304 = async () => {
+	const pin = PinReader.read_kenmen_pin();
+	if (!pin) {
+		return { result: "9" };
+	}
 
-  const [name,address,birthday,sex] = (await Card.fetch_personal_info(pin)).map( x => toHexString(x) )
-  const combination_code = await Card.fetch_individual_number(pin)
+	const [name, address, birthday, sex] = (
+		await Card.fetch_personal_info(pin)
+	).map((x) => toHexString(x));
+	const combination_code = await Card.fetch_individual_number(pin);
 
-  return {
-    result: '0',
-    mynumber: toHexString(combination_code),
-    name,
-    address,
-    birthday,
-    sex,
-    combination_code,
-  }
+	return {
+		result: "0",
+		mynumber: toHexString(combination_code),
+		name,
+		address,
+		birthday,
+		sex,
+		combination_code,
+	};
 }
 
-function toHexString(x) {
-  const r = new TextEncoder().encode(x)
-  return Array.from(r).map(x => x.toString(16).padStart(2, '0')).reduce((x,y)=>x+y)
+const toHexString = (x) => {
+	const r = new TextEncoder().encode(x);
+	return Array.from(r)
+		.map((x) => x.toString(16).padStart(2, "0"))
+		.reduce((x, y) => x + y);
 }
 
 //TODO: write error handling
-async function on_launchApp(e) {
-  const msg = JSON.parse(e.detail)
+const on_launchApp = async (e) => {
+	const msg = JSON.parse(e.detail);
 
-  let r = undefined
-  switch (msg.mode) {
-  case '01':
-    r = on_mode01(msg.digest)
-    break;
-  case '03':
-  case '04':
-    r = on_mode0304()
-    break;
-  }
+	let r = undefined;
+	switch (msg.mode) {
+		case "01":
+			r = on_mode01(msg.digest);
+			break;
+		case "03":
+		case "04":
+			r = on_mode0304();
+			break;
+	}
 
-  const detail = JSON.stringify({
-    mode: msg.mode,
-    ...(await r)
-  })
-  document.dispatchEvent(new CustomEvent('recvMsg', { detail }))
+	const detail = JSON.stringify({
+		mode: msg.mode,
+		...(await r),
+	});
+	document.dispatchEvent(new CustomEvent("recvMsg", { detail }));
 }
 
 /* They check if the extension and the native messaging client are installed or not
  * by finding these element. */
-function inject_extension_installation_check_code() {
-  const e1 = document.createElement('input')
-  e1.id = 'extension-is-installed'
-  e1.type = 'hidden'
-  e1.value = '999'
-  document.body.appendChild(e1)
+const inject_extension_installation_check_code = async () => {
+	const e1 = document.createElement("input");
+	e1.id = "extension-is-installed";
+	e1.type = "hidden";
+	e1.value = "999";
+	document.body.appendChild(e1);
 
-  const e2 = document.createElement('input')
-  e2.id = 'app-is-installed'
-  e2.type = 'hidden'
-  e2.value = '999'
-  document.body.appendChild(e2)
+	const e2 = document.createElement("input");
+	e2.id = "app-is-installed";
+	e2.type = "hidden";
+	e2.value = "999";
+	document.body.appendChild(e2);
 
-  const e3 = document.createElement('input')
-  e3.id = 'mnApExtAvailableVersion'
-  e3.type = 'hidden'
-  e3.value = '0'
-  document.body.appendChild(e3)
+	const e3 = document.createElement("input");
+	e3.id = "mnApExtAvailableVersion";
+	e3.type = "hidden";
+	e3.value = "0";
+	document.body.appendChild(e3);
 }
 
-function inject_ua_override_code() {
-  const s = document.createElement('script')
-  s.textContent = `
-    Object.defineProperty(navigator, 'userAgent', {
+const inject_ua_override_code = () => {
+	const s = document.createElement("script");
+	s.textContent = `Object.defineProperty(navigator, 'userAgent', {
       get: ()=>"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36 Edg/111.0.1661.54",
       configurable: true
-    })
-  `
-  s.onload = () => s.remove()
+    })`;
+	s.onload = () => s.remove();
 
-  const head_or_doc = document.head || document.documentElement
-  head_or_doc.appendChild(s)
+	const head_or_doc = document.head || document.documentElement;
+	head_or_doc.appendChild(s);
 }
 
-document.addEventListener('launchApp', on_launchApp)
-inject_extension_installation_check_code()
-inject_ua_override_code()
+document.addEventListener("launchApp", on_launchApp);
+inject_extension_installation_check_code();
+inject_ua_override_code();

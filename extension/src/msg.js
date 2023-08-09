@@ -19,8 +19,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-function on_message(msg) {
-  return browser.runtime.sendNativeMessage('myna_browser_extension', msg)
+const on_message = (msg) => {
+	return browser.runtime.sendNativeMessage("myna_browser_extension", msg);
 }
 
-chrome.runtime.onMessage.addListener(on_message)
+chrome.runtime.onMessage.addListener(on_message);
