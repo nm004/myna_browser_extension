@@ -15,8 +15,7 @@
 				"https://*.e-taxrenkei.jp/*"
 			],
 			"js": [
-				"src/main.js",
-				"src/utils.js"
+				"src/main.js"
 			]
 		}
 	],
