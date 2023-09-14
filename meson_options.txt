@@ -1,1 +1,0 @@
-option('mozdir', type : 'string', value : '')
