@@ -1,7 +1,7 @@
 Myna browser extension
 =========================
 
-[マイナンバーカードポータルサイト](https://myna.go.jp)用のFirefox拡張機能。
+[マイナンバーカードポータルサイト](https://myna.go.jp)用のウェブブラウザ拡張機能。
 
 必要なもの
 -------------------------
@@ -18,13 +18,15 @@ Myna browser extension
 内容物
 -------------------------
 
- * Firefoxの拡張機能 (`extension` ディレクトリ)
- * 拡張機能とやりとりするホスト側のプログラム (`src` ディレクトリ)
+ * ブラウザ用の拡張機能 (`extension` ディレクトリ)
+ * 拡張機能とやりとりするホスト側のプログラム (`nmh` ディレクトリ)
 
 インストール
 -------------------------
 
-### Firefoxの拡張機能
+### ウェブブラウザの拡張機能
+
+#### Firefox
 
 `about:debugging#/runtime/this-firefox` から一時的なアドオンとして`extension/manifest.json`を読み込む。
 
@@ -32,10 +34,7 @@ Myna browser extension
 
 ### Linux
 
-```
-meson setup -Dmozdir=$HOME/.mozilla -Dpython.install_env=auto build
-meson install -C build
-```
+install.shを実行する
 
 ### Windows
 
@@ -46,10 +45,7 @@ install.batを実行する
 
 ### Linux
 
-```
-rm -rf $HOME/.mozilla/native-messaging-hosts/MPA
-rm -rf $HOME/.mozilla/native-messaging-hosts/myna_browser_extension.json
-```
+uninstall.shを実行する
 
 ### Windows
 
