@@ -123,28 +123,28 @@ class Card {
 		const method = this.sign_with_user_auth.name;
 		const params = { pin, message };
 		const msg = { method, params, id: Date.now() };
-		return browser.runtime.sendMessage(msg).then(this._parse_response);
+		return chrome.runtime.sendMessage(msg).then(this._parse_response);
 	}
 
 	static fetch_user_auth_cert() {
 		const method = this.fetch_user_auth_cert.name;
 		const params = {};
 		const msg = { method, params, id: Date.now() };
-		return browser.runtime.sendMessage(msg).then(this._parse_response);
+		return chrome.runtime.sendMessage(msg).then(this._parse_response);
 	}
 
 	static fetch_individual_number(pin) {
 		const method = this.fetch_individual_number.name;
 		const params = { pin };
 		const msg = { method, params, id: Date.now() };
-		return browser.runtime.sendMessage(msg).then(this._parse_response);
+		return chrome.runtime.sendMessage(msg).then(this._parse_response);
 	}
 
 	static fetch_personal_info(pin) {
 		const method = this.fetch_personal_info.name;
 		const params = { pin };
 		const msg = { method, params, id: Date.now() };
-		return browser.runtime.sendMessage(msg).then(this._parse_response);
+		return chrome.runtime.sendMessage(msg).then(this._parse_response);
 	}
 
 	static _parse_response(r) {
